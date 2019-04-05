@@ -34,6 +34,7 @@ An Example Save File:
   knowledge: "72",
   prestigeCount: "4",
   midtermPassed: "false", // condition for unlocking level 2
+  finalPassed: "false",
   happinessUpgrades: [
     { name: "upgrade1", level: "32", owned: true},
     { name: "upgrade2", level: "0", owned: false},
