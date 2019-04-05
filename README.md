@@ -1,26 +1,20 @@
-The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
-
-(___TODO__: your project name_)
-
-# Shoppy Shoperson 
+# Course Clicker
 
 ## Overview
 
-(___TODO__: a brief one or two paragraph, high-level description of your project_)
+Course Clicker will be a game of the incremental/clicker genre that is meant to be a satirical simulation of a student attempting to get through a college class with good grades. The main learning objectives of this project are to familiarize myself with React, and learn how to create interactive web applications.
 
-Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
+The game will be broken down into two "levels", represented by two different web pages/routes on the site. The first level is from the start of the course to the midterm, and the second from then until the final exam. The 3 main resources the game will ask you to balance are *Happiness*, *Productivity*, and *Knowledge*. There will be different ways to generate each of these resources, but gaining a certain resource generally coming at the cost of one (or both) of the others. The core gameplay loop demands that you keep a balance between these resources, and invest your resources into accelerating the rate of your resource gains. 
 
-Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
-
+Course Clicker is set apart from most other incremental games in that it has a concrete win condition - to gain enough Knowledge stat to obtain a passing grade on the midterm/final. In each level, you are racing against the clock to gain enough Knowledge before it's time to take the test. As with most incremental games, Course Clicker will feature a prestige mechanic, where you reset your progress in the current level in order to gain some permanent benefits. This will be necessary in order to get to a point where you can gain knowledge fast enough to pass your final evaluations.
 
 ## Data Model
 
 (___TODO__: a description of your application's data and their relationships to each other_) 
 
-The application will store Users, Lists and Items
+The data model for this project is quite simple - a main "save file" document stores pertinent variables related to your progress in the game. Obviously I haven't ironed out all the details of the game's design, so the document below just names a portion of the stats that will eventually be in the game.
 
-* users can have multiple lists (via references)
-* each list can have multiple items (by embedding)
+Depending on whether I end up implementing user auth (see below for my research topics), there will also be a user document, each of which can have one save file document (one to one relation).
 
 (___TODO__: sample documents_)
 
@@ -30,15 +24,15 @@ An Example User:
 {
   username: "shannonshopper",
   hash: // a password hash,
-  lists: // an array of references to List documents
+  saveFile: // an array of references to List documents
 }
 ```
 
-An Example List with Embedded Items:
+An Example Save File:
 
 ```javascript
 {
-  user: // a reference to a User object
+  user: // a reference to a user document
   name: "Breakfast foods",
   items: [
     { name: "pancakes", quantity: "9876", checked: false},
@@ -48,32 +42,35 @@ An Example List with Embedded Items:
 }
 ```
 
-
 ## [Link to Commented First Draft Schema](db.js) 
-
-(___TODO__: create a first draft of your Schemas in db.js and link to it_)
 
 ## Wireframes
 
-(___TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc._)
+/game - page for first level of the game (midterm)
 
-/list/create - page for creating a new shopping list
+![game level 1](documentation/game.png)
 
-![list create](documentation/list-create.png)
+/game2 - page for second level of the game (final)
 
-/list - page for showing all shopping lists
+![game level 2](documentation/game2.png)
 
-![list](documentation/list.png)
-
-/list/slug - page for showing specific shopping list
-
-![list](documentation/list-slug.png)
+Note that the routes for each level of the game are deliberately undescriptive to avoid spoiling the fact that a second level exists.
 
 ## Site map
+ ________________
+|                |
+|       /        |
+|                |  
+|________________|
+        |
+        v
+ ________________         ________________
+|                |       |                |
+|     /game      |  -->  |     /game2     |
+|                |       |                |
+|________________|       |________________| 
 
-(___TODO__: draw out a site map that shows how pages are related to each other_)
-
-Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia/commons/2/20/Sitemap_google.jpg), but you can create one without the screenshots, drop shadows, etc. ... just names of pages and where they flow to.
+The `/` route will only exist if I end up integrating user auth in time. Otherwise, the site will start on the first level (`/game`), and once you meet the necessary conditions, a link will open up on `/game` to give you access to the second level (`/game2`).
 
 ## User Stories or Use Cases
 
@@ -88,29 +85,22 @@ Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia
 
 ## Research Topics
 
-(___TODO__: the research topics that you're planning on working on along with their point values... and the total points of research topics listed_)
+* (6 points) React
+    * Using React to construct the UI of my game.
+    * Since it is quite a robust library with quite a bit to learn, I allocated 6 points for it.
+* (2 points) Using CSS preprocessor Myth
+    * Expanding the features available to me in my stylesheets seems useful for this type of project
+    * Myth felt to me like a good balance between being featureful and straightforward to use
+* (0-5 points) Passport.js for authentication
+    * Since I'm uncertain how much time I will need to spend on learning React, I may or may not end up doing user log-in
 
-* (5 points) Integrate user authentication
-    * I'm going to be using passport for user authentication
-    * And account has been made for testing; I'll email you the password
-    * see <code>cs.nyu.edu/~jversoza/ait-final/register</code> for register page
-    * see <code>cs.nyu.edu/~jversoza/ait-final/login</code> for login page
-* (4 points) Perform client side form validation using a JavaScript library
-    * see <code>cs.nyu.edu/~jversoza/ait-final/my-form</code>
-    * if you put in a number that's greater than 5, an error message will appear in the dom
-* (5 points) vue.js
-    * used vue.js as the frontend framework; it's a challenging library to learn, so I've assigned it 5 points
-
-10 points total out of 8 required points (___TODO__: addtional points will __not__ count for extra credit_)
+8 points total out of 8 required points (13 out of 8 if I end up using passport)
 
 
 ## [Link to Initial Main Project File](app.js) 
 
-(___TODO__: create a skeleton Express application with a package.json, app.js, views folder, etc. ... and link to your initial app.js_)
-
 ## Annotations / References Used
 
-(___TODO__: list any tutorials/references/etc. that you've based your code off of_)
-
-1. [passport.js authentication docs](http://passportjs.org/docs) - (add link to source code that was based on this)
-2. [tutorial on vue.js](https://vuejs.org/v2/guide/) - (add link to source code that was based on this)
+1. [React website - learning resources + documentation](https://reactjs.org)
+2. [65 minigames built in React](https://react.rocks/tag/Game)
+3. [Myth CSS preprocessor GitHub/API](https://github.com/segmentio/myth)
