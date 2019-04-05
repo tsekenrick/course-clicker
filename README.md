@@ -69,6 +69,7 @@ Note that the routes for each level of the game are deliberately undescriptive t
 To expand on what the wireframes suggest, the idea is that happiness is the easiest to accrue high quantities of, which you then spend to gain productivity at a slower rate, and likewise for productivity -> knowledge. The "exchange rates" and other variables for gaining these resources can be modified by investing in various upgrades, and the process can also be accelerated by clicking on a button below the stat's respective columns.
 
 ## Site map
+```
  ________________
 |                |
 |       /        |
@@ -81,6 +82,7 @@ To expand on what the wireframes suggest, the idea is that happiness is the easi
 |     /game      |  -->  |     /game2     |
 |                |       |                |
 |________________|       |________________| 
+```
 
 The `/` route will only exist if I end up integrating user auth in time. Otherwise, the site will start on the first level (`/game`), and once you meet the necessary conditions, a link will open up on `/game` to give you access to the second level (`/game2`).
 
