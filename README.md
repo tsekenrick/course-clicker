@@ -54,7 +54,9 @@ An Example Save File:
 
 ![game level 2](documentation/game2.png)
 
-Note that the routes for each level of the game are deliberately undescriptive to avoid spoiling the fact that a second level exists.
+Note that the routes for each level of the game are deliberately undescriptive to avoid spoiling the fact that a second level exists. You may notice that the general layout of both levels is essentially identical - the main difference will be the stat requirements, upgrade values and time restrictions present in each level, but the interface and core player interactions remain the same. This was done as a scoping decision, and for consistency of design.
+
+To expand on what the wireframes suggest, the idea is that happiness is the easiest to accrue high quantities of, which you then spend to gain productivity at a slower rate, and likewise for productivity -> knowledge. The "exchange rates" and other variables for gaining these resources can be modified by investing in various upgrades, and the process can also be accelerated by clicking on a button below the stat's respective columns.
 
 ## Site map
  ________________
@@ -74,14 +76,12 @@ The `/` route will only exist if I end up integrating user auth in time. Otherwi
 
 ## User Stories or Use Cases
 
-(___TODO__: write out how your application will be used through [user stories](http://en.wikipedia.org/wiki/User_story#Format) and / or [use cases](https://www.mongodb.com/download-center?jmp=docs&_ga=1.47552679.1838903181.1489282706#previous)_)
-
-1. as non-registered user, I can register a new account with the site
-2. as a user, I can log in to the site
-3. as a user, I can create a new grocery list
-4. as a user, I can view all of the grocery lists I've created in a single list
-5. as a user, I can add items to an existing grocery list
-6. as a user, I can cross off items in an existing grocery list
+1. as a user, I can interact with UI elements to invest my resources
+2. as a user, I can open and close the game and have my save progress persist
+3. as a user, I can passively gain resources while I do not have the game launched
+4. as a user, I can reset progress in parts of my game to obtain permanent stat bonuses
+5. as a user, I can pass the evaluation at the end of a level to obtain a level unlock/victory message
+6. as a user, I can access the second level of the game only after meeting requirements within the first level
 
 ## Research Topics
 
