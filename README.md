@@ -18,7 +18,7 @@ An Example User:
 
 ```javascript
 {
-  username: "shannonshopper",
+  username: "best_student_123",
   hash: // a password hash,
   saveFile: // an array of references to List documents
 }
