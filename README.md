@@ -10,13 +10,9 @@ Course Clicker is set apart from most other incremental games in that it has a c
 
 ## Data Model
 
-(___TODO__: a description of your application's data and their relationships to each other_) 
-
 The data model for this project is quite simple - a main "save file" document stores pertinent variables related to your progress in the game. Obviously I haven't ironed out all the details of the game's design, so the document below just names a portion of the stats that will eventually be in the game.
 
 Depending on whether I end up implementing user auth (see below for my research topics), there will also be a user document, each of which can have one save file document (one to one relation).
-
-(___TODO__: sample documents_)
 
 An Example User:
 
@@ -33,11 +29,24 @@ An Example Save File:
 ```javascript
 {
   user: // a reference to a user document
-  name: "Breakfast foods",
-  items: [
-    { name: "pancakes", quantity: "9876", checked: false},
-    { name: "ramen", quantity: "2", checked: true},
+  happiness: "10309",
+  productivity: "2317",
+  knowledge: "72",
+  prestigeCount: "4",
+  midtermPassed: "false", // condition for unlocking level 2
+  happinessUpgrades: [
+    { name: "upgrade1", level: "32", owned: true},
+    { name: "upgrade2", level: "0", owned: false},
   ],
+  prodUpgrades: [
+    { name: "upgrade1", level: "5", owned: true},
+    { name: "upgrade2", level: "1", owned: true},
+  ],
+  knowledgeUpgrades: [
+    { name: "upgrade1", level: "0", owned: false},
+    { name: "upgrade2", level: "0", owned: false},
+  ],
+  lastPlayed: // timestamp,
   createdAt: // timestamp
 }
 ```
