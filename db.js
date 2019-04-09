@@ -7,7 +7,7 @@ const User = new mongoose.Schema({
 });
   
 
-const Upgrade = new mongoose.Schema({
+const UpgradeSchema = new mongoose.Schema({
     name: {type: String, required: true},
     level: {type: Number, min: 0, required: true},
     owned: {type: Boolean, default: false, required: true}
@@ -15,8 +15,7 @@ const Upgrade = new mongoose.Schema({
     _id: true
 });
 
-
-const SaveFile = new mongoose.Schema({
+const SaveFileSchema = new mongoose.Schema({
     user: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
     happiness: {type: Number, min: 0, required: true},
     productivity: {type: Number, min: 0, required: true},
@@ -24,9 +23,35 @@ const SaveFile = new mongoose.Schema({
     prestigeCount: {type: Number, min: 0, required: true},
     midtermPassed: {type: Boolean, default: false, required: true},
     finalPassed: {type: Boolean, default: false, required: true},
-    happinessUpgrades: [Upgrade],
-    prodUpgrade: [Upgrade],
-    knowledgeUpgrade: [Upgrade],
+    happinessUpgrades: [UpgradeSchema],
+    prodUpgrade: [UpgradeSchema],
+    knowledgeUpgrade: [UpgradeSchema],
     lastPlayed: {type: Date, required: true},
     createdAt: {type: Date, required: true}
+});
+
+mongoose.model("Upgrade", UpgradeSchema);
+mongoose.model("Savefile", SaveFileSchema);
+
+// is the environment variable, NODE_ENV, set to PRODUCTION? 
+let dbconf;
+if (process.env.NODE_ENV === 'PRODUCTION') {
+    // if we're in PRODUCTION mode, then read the configration from a file
+    // use blocking file io to do this...
+    const fs = require('fs');
+    const path = require('path');
+    const fn = path.join(__dirname, 'config.json');
+    const data = fs.readFileSync(fn);
+    // our configuration file will be in json, so parse it and set the
+    // conenction string appropriately!
+    const conf = JSON.parse(data);
+    dbconf = conf.dbconf;
+} else {
+    // if we're not in PRODUCTION mode, then use
+    dbconf = 'mongodb://localhost/courseClicker';
+}
+
+mongoose.connect(dbconf, {
+    useCreateIndex: true,
+    useNewUrlParser: true
 });
