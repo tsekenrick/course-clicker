@@ -16,7 +16,7 @@ const UpgradeSchema = new mongoose.Schema({
 });
 
 const SaveFileSchema = new mongoose.Schema({
-    user: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
+    user: {type: String, required: true},
     happiness: {type: Number, min: 0, required: true},
     productivity: {type: Number, min: 0, required: true},
     knowledge: {type: Number, min: 0, required: true},
