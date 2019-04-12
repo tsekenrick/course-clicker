@@ -4,7 +4,9 @@
   "description": "The content below is an example project proposal / requirements document. Replace the text below the lines marked \"__TODO__\" with details specific to your project. Remove the \"TODO\" lines.",
   "main": ".eslintrc.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --mode development",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,9 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "eslint-plugin-mocha": "^5.3.0",
-    "mocha": "^6.0.2"
+    "mocha": "^6.0.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   },
   "dependencies": {
     "express": "^4.16.4",
