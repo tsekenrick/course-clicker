@@ -116,3 +116,5 @@ The `/` route will only exist if I end up integrating user auth in time. Otherwi
 1. [React website - learning resources + documentation](https://reactjs.org)
 2. [65 minigames built in React](https://react.rocks/tag/Game)
 3. [Myth CSS preprocessor GitHub/API](https://github.com/segmentio/myth)
+4. [Configuring webpack](https://webpack.js.org/concepts/entry-points/)
+5. [Setting up a React app](https://medium.freecodecamp.org/part-1-react-app-from-scratch-using-webpack-4-562b1d231e75)
