@@ -15,7 +15,6 @@ const sessionOptions = {
 app.set('view engine', 'hbs');
 app.use(session(sessionOptions));
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 const SaveFile = mongoose.model('Savefile');
 const Upgrade = mongoose.model('Upgrade');
@@ -23,7 +22,8 @@ const Upgrade = mongoose.model('Upgrade');
 // landing page
 app.get('/', (req, res) => {
     const name = req.session.myName || 'Anonymous';
-    res.render('index', {'myName': name});
+    const toGame = (name !== 'Anonymous')
+    res.render('home', {'myName': name, toGame: toGame});
 });
 
 // ask user for their name then redirect to main game
@@ -31,25 +31,59 @@ app.post('/', (req, res) => {
     req.session.myName = sanitize(req.body.firstName);
     
     // make new save file if it doesn't exist
-    // const save = new SaveFile({
+    SaveFile.findOne({user: req.session.myName}, (err, result) => {
+        if(err || !result) {
+            const sf = new SaveFile({
+                user: req.session.myName
+            });
 
-    // });
+            sf.save((err, savefile) => {
+                if(err) { 
+                    res.render('home'); 
+                } else {
+                    console.log(`Added ${savefile} to db`);
+                    req.session.save = savefile;
+                    res.render('home', {toGame: true});
+                }
+            });
+        // found matching save
+        } else {
+            req.session.save = result;
+            res.render('home', {toGame: true});
+        }
+    });
     res.redirect('/game');
 });
 
-// send result query for savefile document based on req.session.myName to xhr
 app.get('/game', (req, res) => {
     const name = req.session.myName || 'Anonymous';
-    SaveFile.find({}, (err, result) => {
+    if(name === 'Anonymous') { res.redirect('/'); }
+    SaveFile.findOne({user: name}, (err, result) => {
         if(err) { res.render('index'); }
-        res.json(result);
+        res.render('game', {result});
+        // TODO: make this work
+        // res.sendFile(path.join(__dirname, '..', 'public/index.html'));
+        // document.querySelector("#happyVal").textContent = result.happiness;
     });
 });
 
 // update save file on button press using xhr
 app.post('/game', (req, res) => {
     const name = req.session.myName || 'Anonymous';
-    // find and update document based on name
+    console.log(req.body.happiness);
+    // SaveFile.findOneAndUpdate({user: name}, {$set: {happiness: req.body.happiness}}, (err, result, count) => {
+    //     console.log("failed", err, result, count);
+    // });
 });
 
+// for polling
+app.get('/stats', (req,res) => {
+    const name = req.session.myName || 'Anonymous';
+    SaveFile.find({user: name}, (err, result) => {
+        if(err) { res.render('home'); }
+        res.json(result);
+    });
+});
+
+app.use(express.static(path.join(__dirname, '..', 'public')));
 app.listen(process.env.PORT || 3000);

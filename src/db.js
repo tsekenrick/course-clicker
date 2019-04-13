@@ -17,17 +17,17 @@ const UpgradeSchema = new mongoose.Schema({
 
 const SaveFileSchema = new mongoose.Schema({
     user: {type: String, required: true},
-    happiness: {type: Number, min: 0, required: true},
-    productivity: {type: Number, min: 0, required: true},
-    knowledge: {type: Number, min: 0, required: true},
-    prestigeCount: {type: Number, min: 0, required: true},
+    happiness: {type: Number, min: 0, default: 0, required: true},
+    productivity: {type: Number, min: 0, default: 0, required: true},
+    knowledge: {type: Number, min: 0, default: 0, required: true},
+    prestigeCount: {type: Number, min: 0, default: 0, required: true},
     midtermPassed: {type: Boolean, default: false, required: true},
     finalPassed: {type: Boolean, default: false, required: true},
     happinessUpgrades: [UpgradeSchema],
     prodUpgrade: [UpgradeSchema],
     knowledgeUpgrade: [UpgradeSchema],
-    lastPlayed: {type: Date, required: true},
-    createdAt: {type: Date, required: true}
+    lastPlayed: {type: Date, default: Date.now, required: true},
+    createdAt: {type: Date, default: Date.now, required: true}
 });
 
 mongoose.model("Upgrade", UpgradeSchema);
