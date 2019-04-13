@@ -22,7 +22,7 @@ const Upgrade = mongoose.model('Upgrade');
 // landing page
 app.get('/', (req, res) => {
     const name = req.session.myName || 'Anonymous';
-    const toGame = (name !== 'Anonymous')
+    const toGame = (name !== 'Anonymous');
     res.render('home', {'myName': name, toGame: toGame});
 });
 
