@@ -112,12 +112,12 @@ In light of descoping out the second level of the game, the site map should be l
     * Using webpack as a way to bundle my dependencies
     * Using webpack to differentiate dev and prod builds for ease of development
         * This also includes minification, which is worth 2 points on its own as per the rubric.
-    * Allocating 4 points for figuring out how to get webpack to work with deployment and my server-side code
+    * Allocating 4 points for minification, potential CSS preprocessing, and getting everything in my React app, webpack configs and server-side code to play nice in deployment.
 
 ~~* (2 points) Using CSS preprocessor Myth
     * Expanding the features available to me in my stylesheets seems useful for this type of project
     * Myth felt to me like a good balance between being featureful and straightforward to use~~
-    
+
 ~~* (0-5 points) Passport.js for authentication
     * Since I'm uncertain how much time I will need to spend on learning React, I may or may not end up doing user log-in~~
 
