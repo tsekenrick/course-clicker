@@ -15,6 +15,7 @@ const sessionOptions = {
 app.set('view engine', 'hbs');
 app.use(session(sessionOptions));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 const SaveFile = mongoose.model('Savefile');
 const Upgrade = mongoose.model('Upgrade');
@@ -71,9 +72,10 @@ app.get('/game', (req, res) => {
 app.post('/game', (req, res) => {
     const name = req.session.myName || 'Anonymous';
     console.log(req.body.happiness);
-    // SaveFile.findOneAndUpdate({user: name}, {$set: {happiness: req.body.happiness}}, (err, result, count) => {
-    //     console.log("failed", err, result, count);
-    // });
+    SaveFile.findOneAndUpdate({user: name}, {$set: {happiness: req.body.happiness}}, (err, result, count) => {
+        if(err) res.send(err);
+        res.send(result);
+    });
 });
 
 // for polling
@@ -85,5 +87,4 @@ app.get('/stats', (req,res) => {
     });
 });
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
 app.listen(process.env.PORT || 3000);

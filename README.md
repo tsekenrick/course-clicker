@@ -1,5 +1,10 @@
 # Course Clicker
 
+## Modifications Since Previous Milestone
+I've added webpack as a research topic and removed Myth, since I felt that webpack warranted a topic of its own apart from React. I've changed my research topic point allocation in light of this change.
+
+Because getting React and webpack to work as desired has proven more time-consuming than anticipated, I have decided to descope and remove the second level from the game. Prestige functionality will still exist within the single level, but completing the midterm will simply result in victory, rather than proceeding to the next level.
+
 ## Overview
 
 Course Clicker will be a game of the incremental/clicker genre that is meant to be a satirical simulation of a student attempting to get through a college class with good grades. The main learning objectives of this project are to familiarize myself with React, and learn how to create interactive web applications.
@@ -60,7 +65,7 @@ An Example Save File:
 
 ![game level 1](documentation/game.png)
 
-/game2 - page for second level of the game (final)
+~~/game2 - page for second level of the game (final)~~
 
 ![game level 2](documentation/game2.png)
 
@@ -84,7 +89,9 @@ To expand on what the wireframes suggest, the idea is that happiness is the easi
 |________________|       |________________| 
 ```
 
-The `/` route will only exist if I end up integrating user auth in time. Otherwise, the site will start on the first level (`/game`), and once you meet the necessary conditions, a link will open up on `/game` to give you access to the second level (`/game2`).
+~~The `/` route will only exist if I end up integrating user auth in time. Otherwise, the site will start on the first level (`/game`), and once you meet the necessary conditions, a link will open up on `/game` to give you access to the second level (`/game2`).~~
+
+In light of descoping out the second level of the game, the site map should be limited to just `/` and `/game`.
 
 ## User Stories or Use Cases
 
@@ -93,20 +100,24 @@ The `/` route will only exist if I end up integrating user auth in time. Otherwi
 3. as a user, I can passively gain resources while I do not have the game launched
 4. as a user, I can reset progress in parts of my game to obtain permanent stat bonuses
 5. as a user, I can pass the evaluation at the end of a level to obtain a level unlock/victory message
-6. as a user, I can access the second level of the game only after meeting requirements within the first level
+~~6. as a user, I can access the second level of the game only after meeting requirements within the first level~~
 
 ## Research Topics
 
 * (6 points) React
     * Using React to construct the UI of my game.
     * Since it is quite a robust library with quite a bit to learn, I allocated 6 points for it.
-* (2 points) Using CSS preprocessor Myth
+* (4 points) webpack
+    * Using webpack as a way to bundle my dependencies
+    * Using webpack to differentiate dev and prod builds for ease of development
+    * Allocating 4 points for figuring out how to get webpack to work with deployment and my server-side code
+~~* (2 points) Using CSS preprocessor Myth
     * Expanding the features available to me in my stylesheets seems useful for this type of project
     * Myth felt to me like a good balance between being featureful and straightforward to use
 * (0-5 points) Passport.js for authentication
-    * Since I'm uncertain how much time I will need to spend on learning React, I may or may not end up doing user log-in
+    * Since I'm uncertain how much time I will need to spend on learning React, I may or may not end up doing user log-in~~
 
-8 points total out of 8 required points (13 out of 8 if I end up using passport)
+10 points total out of 8 required points.
 
 
 ## [Link to Initial Main Project File](app.js) 
