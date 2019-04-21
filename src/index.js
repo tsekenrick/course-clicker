@@ -99,7 +99,7 @@ class Counter extends Component {
 	}
 
 	render() {
-		return <div onClick={() => this.handleClick()} className="counter"><h4>{this.state.happiness}</h4></div>;
+		return <div onClick={() => this.handleClick()} className="counter"><h4>{this.state.happiness} (Click Me!)</h4></div>;
 	}
 }
 
