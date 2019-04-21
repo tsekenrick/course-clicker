@@ -133,3 +133,4 @@ In light of descoping out the second level of the game, the site map should be l
 3. [Myth CSS preprocessor GitHub/API](https://github.com/segmentio/myth)
 4. [Configuring webpack](https://webpack.js.org/concepts/entry-points/)
 5. [Setting up a React app](https://medium.freecodecamp.org/part-1-react-app-from-scratch-using-webpack-4-562b1d231e75)
+6. [Reference for a MERN app](https://medium.com/javascript-in-plain-english/full-stack-mongodb-react-node-js-express-js-in-one-simple-app-6cc8ed6de274)

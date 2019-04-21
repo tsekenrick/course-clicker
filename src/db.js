@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-const User = new mongoose.Schema({
-    // username provided by authentication plugin
-    // password hash provided by authentication plugin
-    saveFile:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'SaveFile' }]
-});
+// const User = new mongoose.Schema({
+//     // username provided by authentication plugin
+//     // password hash provided by authentication plugin
+//     saveFile:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'SaveFile' }]
+// });
   
 
 const UpgradeSchema = new mongoose.Schema({

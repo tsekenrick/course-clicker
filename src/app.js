@@ -21,69 +21,49 @@ const SaveFile = mongoose.model('Savefile');
 const Upgrade = mongoose.model('Upgrade');
 
 // landing page
-app.get('/', (req, res) => {
+// app.get('/', (req, res) => {
+//     const name = req.session.myName || 'Anonymous';
+//     const toGame = (name !== 'Anonymous');
+//     res.render('home', {'myName': name, toGame: toGame});
+// });
+
+// update save file on button press
+app.post('/stats', (req, res) => {
     const name = req.session.myName || 'Anonymous';
-    const toGame = (name !== 'Anonymous');
-    res.render('home', {'myName': name, toGame: toGame});
+    console.log(req.body.happiness);
+    SaveFile.findOneAndUpdate({user: name}, {$set: {happiness: req.body.happiness}}, (err, result) => {
+        if(err) { res.json({error: "unable to find and update"}); }
+        res.json(result);
+    });
 });
 
-// ask user for their name then redirect to main game
-app.post('/', (req, res) => {
-    req.session.myName = sanitize(req.body.firstName);
-    
-    // make new save file if it doesn't exist
-    SaveFile.findOne({user: req.session.myName}, (err, result) => {
-        if(err || !result) {
+// for polling
+app.get('/stats', (req,res) => {
+    req.session.myName = sanitize(req.query.user);
+    const name = req.session.myName || 'Anonymous';
+    SaveFile.findOne({user: name}, (err, result) => {
+        // if savefile doesn't exist, make it
+        if(err) { 
             const sf = new SaveFile({
                 user: req.session.myName
             });
 
             sf.save((err, savefile) => {
                 if(err) { 
-                    res.render('home'); 
+                    res.json({error: "unable to save new savefile to db"}); 
                 } else {
                     console.log(`Added ${savefile} to db`);
                     req.session.save = savefile;
-                    res.render('home', {toGame: true});
+                    res.json(savefile);
                 }
             });
-        // found matching save
+        
+        // if found, send it back as json
         } else {
             req.session.save = result;
-            res.render('home', {toGame: true});
+            res.json(result);
         }
-    });
-    res.redirect('/game');
-});
-
-app.get('/game', (req, res) => {
-    const name = req.session.myName || 'Anonymous';
-    if(name === 'Anonymous') { res.redirect('/'); }
-    SaveFile.findOne({user: name}, (err, result) => {
-        if(err) { res.render('index'); }
-        res.render('game', {result});
-        // TODO: make this work
-        // res.sendFile(path.join(__dirname, '..', 'public/index.html'));
-        // document.querySelector("#happyVal").textContent = result.happiness;
-    });
-});
-
-// update save file on button press using xhr
-app.post('/game', (req, res) => {
-    const name = req.session.myName || 'Anonymous';
-    console.log(req.body.happiness);
-    SaveFile.findOneAndUpdate({user: name}, {$set: {happiness: req.body.happiness}}, (err, result, count) => {
-        if(err) res.send(err);
-        res.send(result);
-    });
-});
-
-// for polling
-app.get('/stats', (req,res) => {
-    const name = req.session.myName || 'Anonymous';
-    SaveFile.find({user: name}, (err, result) => {
-        if(err) { res.render('home'); }
-        res.json(result);
+        
     });
 });
 
