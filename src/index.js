@@ -1,31 +1,27 @@
-// client-side js here
-import React from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-// const Index = () => {
-//   return <div>Hello React!</div>;
-// };
-
-// have "login" form that asks for username field, which hides upon 
-// entering valid
-class FakeLogin extends React.component {
+// have "login" form that asks for username field, 
+// which hides upon entering valid
+class FakeLogin extends Component {
     constructor() {
         super();
         this.state = {
             username: "Anonymous",
-            value: '',
             entered: false
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     // send a get to /stats to find save file
-    handleClick(evt) {
+    handleSubmit(evt) {
         evt.preventDefault();
         if(this.state.value === '') {
             return;
         } else {
             this.setState({
-                username: this.state.value,
                 entered: true
             });
         }
@@ -34,39 +30,56 @@ class FakeLogin extends React.component {
         fetch(url, {
             method: "GET"
         })
-        .then(response => response.json())
-        .then(parsed => {
-
+        .then(response => {
+            return response.json();
         });
+        // .then(parsed => {
+
+        // });
     }
 
-    handleChange(evt) {
-        this.setState({value: evt.target.value});
+    handleChange(evt) { 
+        this.setState({username: evt.target.value});
     }
 
     render() {
-        const ret = this.state.entered ? null : (
-            <div className="fakeLogin">
-                <h3>Hi, {this.state.username}.</h3>
-                Enter username: <input type="text" value={this.state.value} onChange={this.handleChange} />
-                <input onClick={(evt) => this.handleClick(evt)} type="button" className="submit" value="Submit" />
-            </div>);
+        const ret = this.state.entered ? <Counter /> : (
+            <form onSubmit={(evt) => this.handleSubmit(evt)}>
+                <label>
+                    Enter username: <input type="text" value={this.state.username} onChange={(evt) => this.handleChange(evt)} />
+                </label>
+                <input type="submit" className="submit" value="Submit" />
+            </form>);
         return ret;
     }
 }
+
 // use xhr to ajax for savefile in database, then show rest of game
 // game should be built using react components with onClick events
-class Counter extends React.component {
+class Counter extends Component {
 	constructor() {
 		super();
 		this.state = {
 			happiness: 0
-		};
-	}
+        };
+        
+        this.handleClick = this.handleClick.bind(this);
+    }
+    
+    componentDidMount() {
+        const url = '/save';
+        fetch(url, {
+            method: "GET"
+        })
+        .then(res => res.json())
+        .then(parsed => {
+            this.setState({happiness: parsed.happiness});
+        });
+    }
 
 	handleClick() {
 		// use setState to update props on state - do NOT assign directly, as setState will also re-render your component for you.
-        this.setState({clicks: this.state.happiness + 1});
+        this.setState({happiness: this.state.happiness + 1});
         
         const url = '/stats';
         fetch(url, {
@@ -74,17 +87,20 @@ class Counter extends React.component {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: this.state.happiness
+            body: `happiness=${this.state.happiness}`
         })
-        .then(response => response.json())
-        .then(parsed => {
+        .then(response => {
+            return response.json();
+        })
+        .catch(error => console.error('ERROR:', error));
+        // .then(parsed => {
 
-        });
+        // });
 	}
 
 	render() {
-		return <div onClick={() => this.handleClick()} className="counter">{this.state.happiness}</div>;
+		return <div onClick={() => this.handleClick()} className="counter"><h4>{this.state.happiness}</h4></div>;
 	}
 }
 
-ReactDOM.render(<div><FakeLogin /><Counter /></div>, document.getElementById("index"));
+ReactDOM.render(<div><FakeLogin /></div>, document.getElementById("index"));
