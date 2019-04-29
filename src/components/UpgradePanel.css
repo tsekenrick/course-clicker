@@ -1,0 +1,28 @@
+body {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1, h2 {
+    display: inline-block;
+}
+
+h1 {
+    font-size: 2em;
+    background: white;
+}
+
+h2 {
+    font-size: 1em;
+    background: none;
+}
+
+div.upgrade {
+    border: 3px ridge orange;
+    height: 15%;
+    margin: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;  
+    -ms-user-select: none; 
+    background: white;
+ }

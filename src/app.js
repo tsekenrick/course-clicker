@@ -24,14 +24,16 @@ const Upgrade = mongoose.model('Upgrade');
 // update save file on button press
 app.post('/stats', (req, res) => {
     const name = req.session.myName || 'Anonymous';
+    const event = {};
+    event[req.body.statName.toLowerCase()] = +req.body.stat;
 
-    SaveFile.findOneAndUpdate({user: name}, {$set: {happiness: req.body.happiness}}, (err, result) => {
+    SaveFile.findOneAndUpdate({user: name}, {$set: event}, (err, result) => {
         if(err) { res.json({error: "unable to find and update"}); }
         res.json(result);
     });
 });
 
-// for polling
+// api endpoint to get savefile info
 app.get('/stats', (req,res) => {
     if(req.query.user) { 
         req.session.myName = sanitize(req.query.user); 

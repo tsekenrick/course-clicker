@@ -1,53 +1,49 @@
 import React, { Component } from "react";
+import style from './StatsPanel.css';
+import UpgradePanel from "./UpgradePanel";
 
 // use xhr to ajax for savefile in database, then show rest of game
 // game should be built using react components with onClick events
 class StatsPanel extends Component {
 	constructor(props) {
-        console.log(props);
 		super(props);
 		this.state = {
-			happiness: props.saveFile.happiness
+            statName: props.statName,
+			stat: props.stat
         };
         
         this.handleClick = this.handleClick.bind(this);
     }
-    
-    componentDidMount() {
-        // const url = '/save';
-        // fetch(url, {
-        //     method: "GET"
-        // })
-        // .then(res => res.json())
-        // .then(parsed => {
-        //     this.setState({happiness: parsed.happiness});
-        // });
-    }
 
 	handleClick() {
-		// use setState to update props on state - do NOT assign directly, as setState will also re-render your component for you.
-        this.setState({happiness: this.state.happiness + 1});
-        console.log(this.props.saveFile.happiness);
-        console.log(this.state.happiness);
+        this.setState({stat: this.state.stat + 1});
+  
         const url = '/stats';
         fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: `happiness=${this.state.happiness}`
+            body: `statName=${this.state.statName}&stat=${this.state.stat}`
         })
         .then(response => {
             return response.json();
         })
         .catch(error => console.error('ERROR:', error));
-        // .then(parsed => {
-
-        // });
 	}
 
 	render() {
-		return <div onClick={() => this.handleClick()} className="counter"><h4>{this.state.happiness} (Click Me!)</h4></div>;
+        const btnStr = this.state.statName.charAt(0).toUpperCase() + this.state.statName.slice(1);
+        return (
+            <div className={style.panel}>
+                <h1>{this.state.statName}</h1>
+                <UpgradePanel purchased={false} />
+                <UpgradePanel purchased={false} />
+                <UpgradePanel purchased={false} />
+                <h2>Your {this.state.statName}: {this.state.stat}</h2><br />
+                <button onClick={() => this.handleClick()} className={style.purchase}>Get {btnStr}!</button><br />
+            </div>
+        );
 	}
 }
 
