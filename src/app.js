@@ -70,9 +70,9 @@ app.get('/stats', (req,res) => {
     });
 });
 
-app.get('/save', (req, res) => {
-    console.log(req.session.mySave);
-    res.json(req.session.mySave);
-});
+// app.get('/save', (req, res) => {
+//     console.log(req.session.mySave);
+//     res.json(req.session.mySave);
+// });
 
 app.listen(process.env.PORT || 3000);
