@@ -8,7 +8,7 @@ class StatsPanel extends Component {
 		this.state = {
             statName: props.statName,
             stat: props.stat,
-            costs: [50, 125, 25],
+            costs: [25, 50, 75],
             upgradeTypes: ["clickPlus", "incrStat", "unlockPrestige"],
             upgradeDescs: ["Get more resources per click.",
                             "Hire a tutor to click for you.",

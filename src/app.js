@@ -30,7 +30,14 @@ app.post('/stats', (req, res) => {
         event[req.body.statName.toLowerCase()] = +req.body.stat;
     } else {
         event[req.body.statName] = +req.body.stat;
+        event['happiness'] = 0;
+        event['productivity'] = 0;
+        event['knowledge'] = 0;
+        event['happinessUpgrades'] = [];
+        event['prodUpgrade'] = [];
+        event['knowledgeUpgrade'] = [];
     }
+    console.log(event);
 
     SaveFile.findOneAndUpdate({user: name}, {$set: event}, (err, result) => {
         if(err) { res.json({error: "unable to find and update"}); }

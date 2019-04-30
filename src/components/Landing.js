@@ -17,6 +17,7 @@ class Landing extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlePrestige = this.handlePrestige.bind(this);
     }
     
     // send a get to /stats to find save file
@@ -24,7 +25,7 @@ class Landing extends Component {
         evt.preventDefault();
 
         // the most basic of input validation
-        if(this.state.value === '' || this.state.value === 'Anonymous') {
+        if(this.state.username === '' || this.state.username === 'Anonymous') {
             return;
         } else {
             const url = `/stats?user=${this.state.username}`;
@@ -67,20 +68,23 @@ class Landing extends Component {
     }
 
     handlePrestige() {
-        this.setState({prestigeCount: this.state.prestigeCount + 1});
-  
         const url = '/stats';
         fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: `name=${this.state.username}&statName=prestigeCount&stat=${this.state.prestigeCount}`
+            body: `name=${this.state.username}&statName=prestigeCount&stat=${this.state.prestigeCount + 1}`
         })
         .then(response => {
             return response.json();
         })
-        .catch(error => console.error('ERROR: ', error));
+        .catch(error => console.error('ERROR: ', error))
+        .then(parsed => {
+            this.setState({upgradesOwned: [[false, false, false], [false, false, false], [false, false, false]]});
+            this.setState({saveFile: parsed});
+            this.setState({prestigeCount: this.state.prestigeCount + 1});
+        });
     }
 
     render() {
@@ -91,8 +95,7 @@ class Landing extends Component {
                 <StatsPanel username={this.state.username} statName="Happiness" stat={this.state.saveFile.happiness} upgrades={this.state.upgradesOwned[0]} prestigeCount={this.state.saveFile.prestigeCount} />
                 <StatsPanel username={this.state.username} statName="Productivity" stat={this.state.saveFile.productivity} upgrades={this.state.upgradesOwned[1]} prestigeCount={this.state.saveFile.prestigeCount} />
                 <StatsPanel username={this.state.username} statName="Knowledge" stat={this.state.saveFile.knowledge} upgrades={this.state.upgradesOwned[2]} prestigeCount={this.state.saveFile.prestigeCount} /><br />
-                <PrestigeButton handlePrestige={this.handlePrestige} canPrestige={canPrestige} /><br />
-                <p>(You have prestiged {this.state.prestigeCount} times.)</p>
+                <PrestigeButton handlePrestige={this.handlePrestige} canPrestige={canPrestige} prestigeCount={this.state.prestigeCount} /><br />
             </div>)
             : 
             (<form onSubmit={(evt) => this.handleSubmit(evt)}>
