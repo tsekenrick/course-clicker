@@ -3,7 +3,7 @@ button.prestige {
     text-align: center;
     font-size: 1.25em;
     color: white;
-    background: darkred;
+    background: green;
     border-radius: 4px;
     border: 3px solid black;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); 
@@ -13,5 +13,6 @@ button.prestige {
 
 button[disabled=disabled], button:disabled {
     opacity: .5;
+    background: darkred;
     cursor: not-allowed;
 }

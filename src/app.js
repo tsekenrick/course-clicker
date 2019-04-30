@@ -23,9 +23,14 @@ const Upgrade = mongoose.model('Upgrade');
 
 // update save file on button press
 app.post('/stats', (req, res) => {
-    const name = req.session.myName || 'Anonymous';
+    const name = req.body.name;
     const event = {};
-    event[req.body.statName.toLowerCase()] = +req.body.stat;
+
+    if(req.body.statName !== "prestigeCount") {
+        event[req.body.statName.toLowerCase()] = +req.body.stat;
+    } else {
+        event[req.body.statName] = +req.body.stat;
+    }
 
     SaveFile.findOneAndUpdate({user: name}, {$set: event}, (err, result) => {
         if(err) { res.json({error: "unable to find and update"}); }
@@ -42,12 +47,12 @@ app.get('/stats', (req,res) => {
         });
     }  
 
-    const name = req.session.myName || 'Anonymous';
+    const name = sanitize(req.query.user);
     SaveFile.findOne({user: name}, (err, result) => {
         // if savefile doesn't exist, make it
-        if(err) { 
+        if(err || !result) { 
             const sf = new SaveFile({
-                user: req.session.myName
+                user: name
             });
 
             sf.save((err, savefile) => {
@@ -72,9 +77,67 @@ app.get('/stats', (req,res) => {
     });
 });
 
-// app.get('/save', (req, res) => {
-//     console.log(req.session.mySave);
-//     res.json(req.session.mySave);
-// });
+app.post('/upgrades', (req,res) => {
+
+    const name = req.body.name;
+    let upgradeString = "";
+    switch(req.body.statName) {
+        case "Happiness":
+            upgradeString = 'happinessUpgrades';
+            break;
+        case "Productivity":
+            upgradeString = 'prodUpgrade';
+            break;
+        case "Knowledge":
+            upgradeString = 'knowledgeUpgrade';
+            break;
+    }
+
+    const query = {};
+    query['user'] = name;
+    query[upgradeString] = { $elemMatch: {name: req.body.upgradeName}};
+
+    SaveFile.findOne(query, (err, result) => {
+        // if unable to find upgrade in savefile, add the upgrade
+        if(err || !result) { 
+            const upgrade = new Upgrade({
+                name: req.body.upgradeName,
+                level: req.body.level,
+                owned: req.body.owned
+            });
+
+            const event = {};
+            switch(req.body.statName) {
+                case "Happiness":
+                    event['happinessUpgrades'] = upgrade;
+                    break;
+                case "Productivity":
+                    event['prodUpgrade'] = upgrade;
+                    break;
+                case "Knowledge":
+                    event['knowledgeUpgrade'] = upgrade;
+                    break;
+            }
+            console.log(event);
+            
+            const event2 = {};
+            event2[req.body.statName.toLowerCase()] = +req.body.cost;
+
+            SaveFile.findOneAndUpdate({user: name}, {$push: event, $set: event2}, (err, upgrade) => {
+                if(err) { 
+                    res.json({error: `unable to save new upgrade to db: ${err}`}); 
+                } else {
+                    console.log(`Added ${upgrade} to db`);
+                    res.json(upgrade);
+                }
+            });
+        
+        // if found, send it back as json
+        } else {
+            console.log(`upgrade already existed: ${result}`);
+            res.json(result);
+        }
+    });
+});
 
 app.listen(process.env.PORT || 3000);

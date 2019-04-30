@@ -14,11 +14,11 @@ div.panel {
   
 h1, h2 {
     display: inline-block;
-    background: white;
 }
 
 h1 {
     font-size: 2em;
+    font-family: monaco, monospace;
 }
 
 h2 {

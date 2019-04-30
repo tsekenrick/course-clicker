@@ -11,8 +11,6 @@ const UpgradeSchema = new mongoose.Schema({
     name: {type: String, required: true},
     level: {type: Number, min: 0, required: true},
     owned: {type: Boolean, default: false, required: true}
-}, {
-    _id: true
 });
 
 const SaveFileSchema = new mongoose.Schema({
